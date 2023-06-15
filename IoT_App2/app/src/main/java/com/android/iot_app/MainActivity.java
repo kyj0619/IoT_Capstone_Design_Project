@@ -30,7 +30,7 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
-//         Database DATA 불러오기
+//  Database DATA 불러오기
     private TextView textView2;
     private TextView textView4;
     private ImageView imageView;
@@ -61,10 +61,10 @@ public class MainActivity extends AppCompatActivity {
                             return;
                         }
 
-                        // Get new FCM registration token
+                        //토큰 생성
                         String token = task.getResult();
 
-                        // Log and toast
+                        // 토큰 로그 및 토스트 메시지
 //                        String msg = getString(R.string.msg_token_fmt, token);
                         Log.d(TAG, "token value " + token);
                         Toast.makeText(MainActivity.this, token, Toast.LENGTH_SHORT).show();
@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = new Intent(this, FirebaseDatabaseService.class);
         startService(intent);
-
+//      타입에 따른 이미지 변경
         sound_type.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -118,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
             public void onCancelled(DatabaseError databaseError) {
             }
         });
-
+//      방향에 따른 이미지 변경
         sound_detection.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

@@ -48,7 +48,7 @@ else:
 #     # mfcc = numpy.array(librosa.feature.mfcc(y=y_downsampled, sr=sr_downsampled, n_mfcc=20))
 #     return mfcc
 
-# 노패딩시 tss 길이 55 패딩 or 5초로 늘려서 추출시 216
+# 노패딩시 stt 길이 55 패딩 or 5초로 늘려서 추출시 216
 # 5초로 자르고 5초보다 짧은 경우 5초에 맞도록 반복 추출
 # def get_mfcc(wav_file_path):
 #     y, sr = librosa.load(wav_file_path)
@@ -65,18 +65,21 @@ else:
 #     return mfcc
 
 def get_duration(wav_file_path):
-    y, sr = librosa.load(wav_file_path, sr=None)
+    y, sr = librosa.load(wav_file_path, sr=44100)
     return len(y) / sr
 
 
+# sr=44100/sr=22050 duration5/3
+
 def get_mfcc(wav_file_path, start=0, duration=5):
-    y, sr = librosa.load(wav_file_path, offset=start, duration=duration)
+    y, sr = librosa.load(wav_file_path, offset=start, duration=duration, sr=44100)
     if len(y) < duration * sr:
         # y = numpy.concatenate([y] * math.ceil((duration * sr) / len(y)))[:duration * sr]
         y = numpy.concatenate([y] * math.ceil((duration * sr) / len(y)))
     y = y[:duration * sr]  # Ensure y is always the exact same length
     mfcc = numpy.array(librosa.feature.mfcc(y=y, sr=sr))
     return mfcc
+
 
 directory = 'C:/Users/yongju kim/Desktop/testfolder'
 sounds = ['fire_alarm_sound', 'bicycle', 'name', 'car_drivesound', 'car_siren', 'car_horn', 'motorcycle_horn',
@@ -167,8 +170,8 @@ print("features_test shape", features_test.shape)
 # print(features_test)
 
 
-# 입력 데이터의 형태(shape)를 변경
-input_shape = (20, 216)
+# 입력 데이터의 형태(shape)를 변경 431
+input_shape = (20, 259)
 # mfcc 20 melpectrogram 128 concatencate 148
 
 inputs = keras.Input(shape=input_shape, name="input")

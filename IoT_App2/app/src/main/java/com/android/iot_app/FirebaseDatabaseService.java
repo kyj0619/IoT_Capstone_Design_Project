@@ -26,7 +26,7 @@ public class FirebaseDatabaseService extends Service {
         super.onCreate();
         sound_detection = FirebaseDatabase.getInstance().getReference("DATA/sound_direction");
     }
-
+//  소리의 방향에 따른 진동 분류
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         sound_detection.addValueEventListener(new ValueEventListener() {
@@ -34,16 +34,13 @@ public class FirebaseDatabaseService extends Service {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String sound_direction = dataSnapshot.getValue(String.class);
 
-                // Get an instance of the Vibrator
                 Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 
-                // Different vibration patterns based on the sound direction
                 long[] eastVibrationPattern = {0, 200};
                 long[] westVibrationPattern = {0, 500};
                 long[] southVibrationPattern = {0, 200, 250, 200};
                 long[] northVibrationPattern = {0, 500, 250, 500};
 
-                // Change the vibration pattern based on the sound direction
                 switch (sound_direction) {
                     case "north":
                         vibrator.vibrate(northVibrationPattern, -1);
